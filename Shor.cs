@@ -11,7 +11,7 @@ namespace Shor
         {
             using (var qsim = new QuantumSimulator())
             {
-                HelloQ.Run(qsim).Wait();
+                FindPeriod.Run(qsim, 2, 15).Wait();
             }
         }
     }
