@@ -14,5 +14,15 @@ namespace Shor
             Action act = () => factoriser.factorise(numberLessThanTwo);
             Assert.Throws<ArgumentException>(act);
         }
+
+        [Theory]
+        [InlineData(2)]
+        [InlineData(10)]
+        [InlineData(16)]
+        public void FactoriseReturnsTwoAndOtherFactorWhenNumberIsEven(int evenNumber) {
+            Factoriser factoriser = new Factoriser();
+            (int, int) factors = factoriser.factorise(evenNumber);
+            Assert.Equal(factors, (2, evenNumber / 2));
+        }
     }
 }
