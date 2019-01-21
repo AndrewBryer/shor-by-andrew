@@ -40,16 +40,15 @@
     {
         body (...)
         {
+            SwapReverseRegister(inputRegister);
+
             for (i in 0..Length(inputRegister) - 1)
-            {
-                let target = inputRegister[i];
-                H(target);                              
+            {    
+                H(inputRegister[i]);                          
                 for (j in i + 1..Length(inputRegister) - 1) {
                     Controlled R1Frac([inputRegister[j]], (1, j - i, inputRegister[i]));
                 }
             }
-
-            SwapReverseRegister(inputRegister);
         }
     }
 }
