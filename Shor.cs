@@ -5,7 +5,7 @@ using Microsoft.Quantum.Simulation.Simulators;
 
 namespace Shor
 {
-    class Driver
+    class Shor
     {
         static void Main(string[] args)
         {
