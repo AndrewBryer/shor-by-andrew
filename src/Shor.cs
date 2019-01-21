@@ -11,7 +11,7 @@ namespace Shor
         {
             using (var qsim = new QuantumSimulator())
             {
-                int result = (int)FindNumerator.Run(qsim, 2, 15).Result;
+                (int, int) result = new Factoriser().factorise(15);
                 Console.WriteLine(result);
             }
         }

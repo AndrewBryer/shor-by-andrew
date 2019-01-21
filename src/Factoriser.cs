@@ -22,7 +22,10 @@ namespace Shor
             {
                 return (2, numberToFactorise / 2);
             }
-            throw new NotImplementedException();
+            else 
+            {
+                throw new NotImplementedException();
+            }
         }
     }
 }
