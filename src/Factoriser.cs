@@ -1,12 +1,10 @@
 using System;
+using Microsoft.Quantum.Simulation.Simulators;
 
 namespace Shor
 {
     public class Factoriser
     {
-        // Find GCD of a and N
-        // If not 1 then we are done
-        // Do Quantum stuff until result is not 0
         // Find r from the dyadic numerator using continued fractions
         // If r is odd pick a new a
         // If a ^ (r / 2) is -1 mod n then pick a new a
@@ -39,7 +37,15 @@ namespace Shor
                 return (gcdOfAAndN, numberToFactorise / gcdOfAAndN);
             }
             else {
-                throw new NotImplementedException();
+                int r = 0;
+                using (var qsim = new QuantumSimulator())
+                {
+                    r = (int)FindNumerator.Run(qsim, a, numberToFactorise).Result;
+                }
+
+                //Continued Fractions Part
+
+                return (0,0);
             }
         }
     }
