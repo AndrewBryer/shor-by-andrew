@@ -10,8 +10,10 @@ namespace Shor
         // If a ^ (r / 2) is -1 mod n then pick a new a
         // Find GCD of (a^(r/2) and N) and of (a^(r/2) and N) these are the factors
         private GreatestCommonDenominator gcd;
+        private ContinuedFractions cf;
         public Factoriser() {
             gcd = new GreatestCommonDenominator();
+            cf = new ContinuedFractions();
         }
         internal (int, int) factorise(int numberToFactorise)
         {
@@ -31,21 +33,32 @@ namespace Shor
 
         private (int, int) factoriseWithShors(int numberToFactorise)
         {
+            int s = 1;
             int a = new Random().Next(3, numberToFactorise);
+            int r = 0;
             int gcdOfAAndN = gcd.findGCD(a, numberToFactorise);
             if (gcdOfAAndN != 1) {
                 return (gcdOfAAndN, numberToFactorise / gcdOfAAndN);
             }
             else {
-                int r = 0;
-                using (var qsim = new QuantumSimulator())
+                while ((int) Math.Pow(a, s) % numberToFactorise != 1)
                 {
-                    r = (int)FindNumerator.Run(qsim, a, numberToFactorise).Result;
+                    Console.WriteLine("modulo loop");
+                    while (r == 0)
+                    {
+                        Console.WriteLine("Inside r == 0 loop");
+                        using (var qsim = new QuantumSimulator())
+                        {
+                            r = (int)FindNumerator.Run(qsim, a, numberToFactorise).Result;
+                        }
+                    }
+                    s = cf.findS(r, (int) Math.Pow(2, 2 * Math.Ceiling(Math.Log(numberToFactorise, 2))), numberToFactorise);
                 }
 
-                //Continued Fractions Part
+                Console.WriteLine(s);
+                Console.WriteLine(a);
 
-                return (0,0);
+                return (gcd.findGCD((int) Math.Pow(a, s / 2) - 1, numberToFactorise), gcd.findGCD((int) Math.Pow(a, s / 2) + 1,  numberToFactorise));
             }
         }
     }
