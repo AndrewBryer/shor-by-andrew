@@ -5,13 +5,12 @@ namespace Shor
 {
     public class Factoriser
     {
-        // Find r from the dyadic numerator using continued fractions
         // If r is odd pick a new a
         // If a ^ (r / 2) is -1 mod n then pick a new a
-        // Find GCD of (a^(r/2) and N) and of (a^(r/2) and N) these are the factors
         private GreatestCommonDenominator gcd;
         private ContinuedFractions cf;
-        public Factoriser() {
+        public Factoriser()
+        {
             gcd = new GreatestCommonDenominator();
             cf = new ContinuedFractions();
         }
@@ -25,7 +24,7 @@ namespace Shor
             {
                 return (2, numberToFactorise / 2);
             }
-            else 
+            else
             {
                 return factoriseWithShors(numberToFactorise);
             }
@@ -33,32 +32,44 @@ namespace Shor
 
         private (int, int) factoriseWithShors(int numberToFactorise)
         {
-            int s = 1;
             int a = new Random().Next(3, numberToFactorise);
-            int r = 0;
+
+            Console.WriteLine($"Selected {a} as our random value a < N");
+
             int gcdOfAAndN = gcd.findGCD(a, numberToFactorise);
-            if (gcdOfAAndN != 1) {
+            if (gcdOfAAndN != 1)
+            {
+                Console.WriteLine("We got lucky! GCD(a, N) != 1");
                 return (gcdOfAAndN, numberToFactorise / gcdOfAAndN);
             }
-            else {
-                while ((int) Math.Pow(a, s) % numberToFactorise != 1)
+            else
+            {
+                int r = 1;
+                while ((int)Math.Pow(a, r) % numberToFactorise != 1)
                 {
-                    Console.WriteLine("modulo loop");
-                    while (r == 0)
+                    Console.WriteLine("Using Quantum Period Finding to find the period of a ^ x mod N");
+                    int y = 0;
+                    while (y == 0)
                     {
-                        Console.WriteLine("Inside r == 0 loop");
                         using (var qsim = new QuantumSimulator())
                         {
-                            r = (int)FindNumerator.Run(qsim, a, numberToFactorise).Result;
+                            y = (int)FindNumerator.Run(qsim, a, numberToFactorise).Result;
                         }
                     }
-                    s = cf.findS(r, (int) Math.Pow(2, 2 * Math.Ceiling(Math.Log(numberToFactorise, 2))), numberToFactorise);
+                    int s = cf.findS(y, (int)Math.Pow(2, 2 * Math.Ceiling(Math.Log(numberToFactorise, 2))), numberToFactorise);
+                    r = r * s / gcd.findGCD(r, s);
+                    Console.WriteLine($"Found s = {s}, this is either a factor of the period or the period itself");
                 }
 
-                Console.WriteLine(s);
-                Console.WriteLine(a);
-
-                return (gcd.findGCD((int) Math.Pow(a, s / 2) - 1, numberToFactorise), gcd.findGCD((int) Math.Pow(a, s / 2) + 1,  numberToFactorise));
+                if (r % 2 == 1 || (int) Math.Pow(a, r / 2) % numberToFactorise == numberToFactorise - 1)
+                {
+                    Console.WriteLine("Unfortunately, r was odd or a ^ (r/2) mod N = -1 so retrying for a new value of a");
+                    return factoriseWithShors(numberToFactorise);
+                }
+                else
+                {
+                    return (gcd.findGCD((int)Math.Pow(a, r / 2) - 1, numberToFactorise), gcd.findGCD((int)Math.Pow(a, r / 2) + 1, numberToFactorise));
+                }
             }
         }
     }

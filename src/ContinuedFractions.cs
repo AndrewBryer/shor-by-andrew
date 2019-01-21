@@ -15,6 +15,10 @@ namespace Shor
                 numerator = next.Item2;
                 denominator = next.Item3;
             }
+            if (!isLessThanModulus(numbers, modulus))
+            {
+                numbers.RemoveAt(numbers.Count - 1);
+            }
             return calculateS(numbers);
         }
 

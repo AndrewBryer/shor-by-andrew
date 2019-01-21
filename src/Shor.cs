@@ -6,7 +6,7 @@ namespace Shor
     {
         static void Main(string[] args)
         {
-            (int, int) result = new Factoriser().factorise(15);
+            (int, int) result = new Factoriser().factorise(21);
             Console.WriteLine(result);
         }
     }
