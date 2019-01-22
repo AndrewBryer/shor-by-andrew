@@ -4,10 +4,11 @@ namespace Shor
 {
     class Shor
     {
-        static void Main(string[] args)
+        public static void Main(string[] args)
         {
-            (int, int) result = new Factoriser().factorise(21);
-            Console.WriteLine(result);
+            int numberToFactorise = 15;
+            (int, int) result = new Factoriser().factorise(numberToFactorise);
+            Console.WriteLine($"The factors of {numberToFactorise} are {result.Item1} and {result.Item2}");
         }
     }
 }

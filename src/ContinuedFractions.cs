@@ -5,7 +5,7 @@ namespace Shor
 {
     public class ContinuedFractions
     {
-        internal int findS(int numerator, int denominator, int modulus)
+        public int findS(int numerator, int denominator, int modulus)
         {
             List<int> numbers = new List<int>();
             while(isLessThanModulus(numbers, modulus) && numerator > 0)
@@ -22,7 +22,7 @@ namespace Shor
             return calculateS(numbers);
         }
 
-        internal int calculateS(List<int> numbers)
+        private int calculateS(List<int> numbers)
         {
             int numerator = 0;
             int denominator = 1;
@@ -36,7 +36,7 @@ namespace Shor
             return numerator;
         }
 
-        internal bool isLessThanModulus(List<int> numbers, int modulus)
+        private bool isLessThanModulus(List<int> numbers, int modulus)
         {
             return calculateS(numbers) < modulus;
         }
