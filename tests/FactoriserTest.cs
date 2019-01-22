@@ -6,6 +6,7 @@ namespace Shor
     public class FactoriserTest
     {
         [Theory]
+        [InlineData(-2)]
         [InlineData(-1)]
         [InlineData(0)]
         [InlineData(1)]
@@ -19,6 +20,7 @@ namespace Shor
         [InlineData(2)]
         [InlineData(10)]
         [InlineData(16)]
+        [InlineData(34)]
         public void FactoriseReturnsTwoAndOtherFactorWhenNumberIsEven(int evenNumber) {
             Factoriser factoriser = new Factoriser();
             (int, int) factors = factoriser.factorise(evenNumber);

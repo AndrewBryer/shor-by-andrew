@@ -7,6 +7,9 @@ namespace Shor
     {
         [Theory]
         [InlineData(-1, 1)]
+        [InlineData(-1, 101)]
+        [InlineData(-34, 1)]
+        [InlineData(-101, 1)]
         public void ContinuedFractionsShouldThrowErrorWhenNumeratorIsLessThanZero(int numerator, int denominator)
         {
             ContinuedFractions cf = new ContinuedFractions();
@@ -16,7 +19,9 @@ namespace Shor
 
         [Theory]
         [InlineData(1, 0)]
+        [InlineData(34, 0)]
         [InlineData(1, -1)]
+        [InlineData(34, -1)]
         public void ContinuedFractionsShouldThrowErrorWhenDenominatorIsZeroOrLess(int numerator, int denominator)
         {
             ContinuedFractions cf = new ContinuedFractions();
@@ -27,6 +32,8 @@ namespace Shor
         [Theory]
         [InlineData(0, 1)]
         [InlineData(0, 10)]
+        [InlineData(0, 34)]
+        [InlineData(0, 101)]
         public void ContinuedFractionsShouldReturnValueOfZeroToNumeratorAndNewValuesAsZero(int numerator, int denominator)
         {
             ContinuedFractions cf = new ContinuedFractions();
@@ -38,6 +45,7 @@ namespace Shor
         [InlineData(1, 1)]
         [InlineData(5, 1)]
         [InlineData(10, 1)]
+        [InlineData(34, 1)]
         public void ContinuedFractionsShouldReturnValueAsNumeratorIfDenominatorIsOne(int numerator, int denominator)
         {
             ContinuedFractions cf = new ContinuedFractions();
@@ -49,6 +57,7 @@ namespace Shor
         [InlineData(2, 3)]
         [InlineData(5, 10)]
         [InlineData(34, 101)]
+        [InlineData(40, 200)]
         public void ContinuedFractionsShouldReturnValueAsZeroIfDenominatorIsBiggerThanNumerator(int numerator, int denominator)
         {
             ContinuedFractions cf = new ContinuedFractions();
@@ -60,6 +69,7 @@ namespace Shor
         [InlineData(3, 2)]
         [InlineData(10, 5)]
         [InlineData(101, 34)]
+        [InlineData(200, 40)]
         public void ContinuedFractionsShouldReturnCorrectNextValues(int numerator, int denominator)
         {
             ContinuedFractions cf = new ContinuedFractions();
