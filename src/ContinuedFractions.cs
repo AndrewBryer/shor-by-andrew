@@ -8,14 +8,14 @@ namespace Shor
         public int findS(int numerator, int denominator, int modulus)
         {
             List<int> numbers = new List<int>();
-            while(isLessThanModulus(numbers, modulus) && numerator > 0)
+            while (calculateS(numbers) < modulus && numerator > 0)
             {
                 (int, int, int) next = findNext(numerator, denominator);
                 numbers.Add(next.Item1);
                 numerator = next.Item2;
                 denominator = next.Item3;
             }
-            if (!isLessThanModulus(numbers, modulus))
+            if (calculateS(numbers) >= modulus)
             {
                 numbers.RemoveAt(numbers.Count - 1);
             }
@@ -31,14 +31,9 @@ namespace Shor
                 int tempDenominator = denominator;
                 denominator = numerator + numbers[i] * denominator;
                 numerator = tempDenominator;
-                
+
             }
             return numerator;
-        }
-
-        private bool isLessThanModulus(List<int> numbers, int modulus)
-        {
-            return calculateS(numbers) < modulus;
         }
 
         internal (int, int, int) findNext(int numerator, int denominator)

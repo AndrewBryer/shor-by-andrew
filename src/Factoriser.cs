@@ -5,8 +5,6 @@ namespace Shor
 {
     public class Factoriser
     {
-        // If r is odd pick a new a
-        // If a ^ (r / 2) is -1 mod n then pick a new a
         private GreatestCommonDenominator gcd;
         private ContinuedFractions cf;
         public Factoriser()
@@ -14,6 +12,7 @@ namespace Shor
             gcd = new GreatestCommonDenominator();
             cf = new ContinuedFractions();
         }
+
         public (int, int) factorise(int numberToFactorise)
         {
             if (numberToFactorise < 2)
@@ -47,6 +46,7 @@ namespace Shor
             {
                 Console.WriteLine($"3. As GCD({a}, {numberToFactorise}) = 1, we need to continue");
                 Console.WriteLine($"4. Using Quantum Period Finding to find the period of {a} ^ x mod {numberToFactorise}");
+
                 int r = findPeriod(a, numberToFactorise);
                 Console.WriteLine($"     - The period of {a} ^ x mod {numberToFactorise} is {r}");
 
@@ -69,25 +69,23 @@ namespace Shor
                     Console.WriteLine($"6. As {a} ^ ({r} / 2) mod {numberToFactorise} != -1 we can continue");
                     Console.WriteLine($"7. The factors of {numberToFactorise} are therefore GCD({a} ^ ({r} / 2) + 1, {numberToFactorise}) and GCD({a} ^ ({r} / 2) - 1, {numberToFactorise})");
                     Console.WriteLine();
-                    int factor1 = gcd.findGCD((int)Math.Pow(a, r / 2) - 1, numberToFactorise);
-                    int factor2 = gcd.findGCD((int)Math.Pow(a, r / 2) + 1, numberToFactorise);
-                    return (factor1, factor2);
+                    return (gcd.findGCD((int)Math.Pow(a, r / 2) - 1, numberToFactorise), gcd.findGCD((int)Math.Pow(a, r / 2) + 1, numberToFactorise));
                 }
             }
         }
 
+        private int selectRandomALessThanNGreaterThanTwo(int numberToFactorise)
+        {
+            return new Random().Next(3, numberToFactorise);
+        }
+
         private int findPeriod(int a, int numberToFactorise, int r = 1)
         {
-            int y = 0;
-            while (y == 0)
-            {
-                using (var qsim = new QuantumSimulator())
-                {
-                    y = (int)FindNumerator.Run(qsim, a, numberToFactorise).Result;
-                }
-            }
+            int y = findNumeratorOfDyadicFraction(a, numberToFactorise);
+
             int numberOfBits = (int)Math.Ceiling(Math.Log(numberToFactorise, 2));
             int s = cf.findS(y, (int)Math.Pow(2, 2 * numberOfBits), numberToFactorise);
+
             r = r * s / gcd.findGCD(r, s);
             Console.WriteLine($"     - Found estimate for r as {r}, this is either the period or a factor of the period");
 
@@ -102,9 +100,21 @@ namespace Shor
             }
         }
 
-        private int selectRandomALessThanNGreaterThanTwo(int numberToFactorise)
+        private int findNumeratorOfDyadicFraction(int a, int numberToFactorise)
         {
-            return new Random().Next(3, numberToFactorise);
+            int y;
+            using (var qsim = new QuantumSimulator())
+            {
+                y = (int)FindNumerator.Run(qsim, a, numberToFactorise).Result;
+            }
+            if (y == 0)
+            {
+                return findNumeratorOfDyadicFraction(a, numberToFactorise);
+            }
+            else
+            {
+                return y;
+            }
         }
     }
 }
