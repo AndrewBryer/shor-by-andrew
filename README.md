@@ -56,7 +56,7 @@ dotnet test
 
 ## Authors
 
-* **Andrew Bryer** - *Initial work* - [AndrewBryer](https://github.com/AndrewBryer)
+* **Andrew Bryer** - Initial work - [AndrewBryer](https://github.com/AndrewBryer)
 
 ## Acknowledgments
 
