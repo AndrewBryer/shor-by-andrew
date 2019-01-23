@@ -4,7 +4,7 @@ namespace Shor
 {
     public class GreatestCommonDenominator
     {
-        internal int findGCD(int firstNumber, int secondNumber)
+        public int findGCD(int firstNumber, int secondNumber)
         {
             if (firstNumber < 0 || secondNumber < 0)
             {
