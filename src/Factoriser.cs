@@ -58,7 +58,7 @@ namespace Shor
                 }
                 else if ((int)Math.Pow(a, r / 2) % numberToFactorise == numberToFactorise - 1)
                 {
-                    Console.WriteLine($"5. As {a} mod 2 != 1 we can continue");
+                    Console.WriteLine($"5. As {r} mod 2 != 1 we can continue");
                     Console.WriteLine($"6. Unfortunately, {a} ^ ({r} / 2) mod {numberToFactorise} = -1 so retrying for a new value of a");
                     Console.WriteLine();
                     return factoriseWithShors(numberToFactorise);
