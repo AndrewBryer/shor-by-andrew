@@ -96,7 +96,7 @@ namespace Shor
             }
             else
             {
-                return s;
+                return r;
             }
         }
 
