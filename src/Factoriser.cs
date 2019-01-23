@@ -65,7 +65,7 @@ namespace Shor
                 }
                 else
                 {
-                    Console.WriteLine($"5. As {a} mod 2 != 1 we can continue");
+                    Console.WriteLine($"5. As {r} mod 2 != 1 we can continue");
                     Console.WriteLine($"6. As {a} ^ ({r} / 2) mod {numberToFactorise} != -1 we can continue");
                     Console.WriteLine($"7. The factors of {numberToFactorise} are therefore GCD({a} ^ ({r} / 2) + 1, {numberToFactorise}) and GCD({a} ^ ({r} / 2) - 1, {numberToFactorise})");
                     Console.WriteLine();
